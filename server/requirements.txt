@@ -6,7 +6,8 @@ python-jose[cryptography]
 passlib[bcrypt]
 pydantic[email]
 python-multipart
-python-dotenv
+pydantic
+pydantic-settings
 slowapi
 user-agents
 loguru
