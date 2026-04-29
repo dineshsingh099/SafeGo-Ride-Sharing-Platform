@@ -1,5 +1,3 @@
-![SafeGo Banner](./server/static/images/banner.png)
-
 # SafeGo — Ride Sharing Platform
 
 > A simple, secure, and efficient ride-sharing platform connecting drivers and passengers.
