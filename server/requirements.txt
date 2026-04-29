@@ -1,7 +1,6 @@
 fastapi
 uvicorn[standard]
 motor
-redis
 python-jose[cryptography]
 passlib[bcrypt]
 pydantic[email]
@@ -9,5 +8,5 @@ python-multipart
 pydantic
 pydantic-settings
 slowapi
-user-agents
 loguru
+bcrypt==4.0.1
