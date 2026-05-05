@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
 
 		server: {
 			proxy: {
-				"/api": {
+				"/auth": {
 					target: env.VITE_BACKEND_URL,
 					changeOrigin: true,
 					secure: false,
