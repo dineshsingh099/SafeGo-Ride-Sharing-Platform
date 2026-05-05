@@ -1,13 +1,18 @@
-from fastapi.responses import JSONResponse
+from fastapi import Response
 
-def success(data=None, message: str = "Request successful.", status_code: int = 200):
-    return JSONResponse(
-        status_code=status_code,
-        content={"status": "success", "message": message, "data": data}
-    )
+def success(response: Response, data=None, message: str = "Request successful.", status_code: int = 200):
+    response.status_code = status_code
+    return {
+        "status": "success",
+        "message": message,
+        "data": data
+    }
 
-def error(message: str = "Something went wrong.", status_code: int = 400):
-    return JSONResponse(
-        status_code=status_code,
-        content={"status": "error", "message": message, "data": None}
-    )
+
+def error(response: Response, message: str = "Something went wrong.", status_code: int = 400):
+    response.status_code = status_code
+    return {
+        "status": "error",
+        "message": message,
+        "data": None
+    }

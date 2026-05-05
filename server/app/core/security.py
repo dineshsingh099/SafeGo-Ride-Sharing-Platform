@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 from app.core.settings import settings
+from app.services.token_blacklist import TokenBlacklistService
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
@@ -12,22 +13,17 @@ pwd_context = CryptContext(
     bcrypt__rounds=12
 )
 
-
 def _prehash(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
-
 
 def hash_password(password: str) -> str:
     return pwd_context.hash(_prehash(password))
 
-
 def verify_password(plain: str, hashed: str) -> bool:
     return pwd_context.verify(_prehash(plain), hashed)
 
-
 def _utc_now() -> datetime:
     return datetime.now(timezone.utc)
-
 
 def create_access_token(data: dict) -> str:
     now = _utc_now()
@@ -40,7 +36,6 @@ def create_access_token(data: dict) -> str:
     })
     return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
-
 def create_refresh_token(data: dict) -> str:
     now = _utc_now()
     payload = data.copy()
@@ -52,8 +47,7 @@ def create_refresh_token(data: dict) -> str:
     })
     return jwt.encode(payload, settings.REFRESH_SECRET_KEY, algorithm=settings.ALGORITHM)
 
-
-def decode_token(token: str) -> dict | None:
+def decode_access_token(token: str) -> dict | None:
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         if payload.get("type") != "access":
@@ -61,7 +55,6 @@ def decode_token(token: str) -> dict | None:
         return payload
     except JWTError:
         return None
-
 
 def decode_refresh_token(token: str) -> dict | None:
     try:
@@ -72,6 +65,16 @@ def decode_refresh_token(token: str) -> dict | None:
     except JWTError:
         return None
 
+async def decode_access_token_checked(token: str) -> dict | None:
+    payload = decode_access_token(token)
+    if not payload:
+        return None
+    if await TokenBlacklistService.exists(payload["jti"]):
+        return None
+    return payload
+
+async def blacklist_token(jti: str):
+    await TokenBlacklistService.add(jti)
 
 def safe_str_compare(a: str, b: str) -> bool:
     return hmac.compare_digest(a.encode(), b.encode())
