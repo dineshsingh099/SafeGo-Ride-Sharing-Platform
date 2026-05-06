@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+:root[data-theme="dark"] {
+  --bg: #020617;
+  --bg-2: #0a0f1e;
+  --card-bg: #0f172a;
+  --card-bg-2: #1e293b;
+  --border: #1e293b;
+  --border-hover: #334155;
+  --text: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: rgba(37, 99, 235, 0.15);
+  --primary-glow: rgba(37, 99, 235, 0.3);
+  --success: #10b981;
+  --success-light: rgba(16, 185, 129, 0.1);
+  --danger: #ef4444;
+  --danger-light: rgba(239, 68, 68, 0.1);
+  --warning: #f59e0b;
+  --warning-light: rgba(245, 158, 11, 0.1);
+  --sidebar-width: 240px;
+  --sidebar-collapsed: 68px;
+  --input-bg: #0a0f1e;
+}
+
+:root[data-theme="light"] {
+  --bg: #f8fafc;
+  --bg-2: #f1f5f9;
+  --card-bg: #ffffff;
+  --card-bg-2: #f8fafc;
+  --border: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: rgba(37, 99, 235, 0.08);
+  --primary-glow: rgba(37, 99, 235, 0.2);
+  --success: #10b981;
+  --success-light: rgba(16, 185, 129, 0.08);
+  --danger: #ef4444;
+  --danger-light: rgba(239, 68, 68, 0.08);
+  --warning: #f59e0b;
+  --warning-light: rgba(245, 158, 11, 0.08);
+  --sidebar-width: 240px;
+  --sidebar-collapsed: 68px;
+  --input-bg: #f8fafc;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+html { scroll-behavior: smooth; }
+#root { min-height: 100vh; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 3px; }
+
+.dashboard-layout { display: flex; min-height: 100vh; background: var(--bg); }
+.dashboard-main { flex: 1; margin-left: var(--sidebar-width); transition: margin-left 0.3s ease; min-height: 100vh; }
+.dashboard-main.collapsed { margin-left: var(--sidebar-collapsed); }
+.dashboard-content { padding: 32px; max-width: 1400px; }
+
+@media (max-width: 768px) {
+  .dashboard-main { margin-left: 0; }
+  .dashboard-content { padding: 20px 16px; }
+}
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; transition: all 0.2s ease; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px var(--primary-glow); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+.badge-success { background: var(--success-light); color: var(--success); }
+.badge-danger { background: var(--danger-light); color: var(--danger); }
+.badge-warning { background: var(--warning-light); color: var(--warning); }
+.badge-primary { background: var(--primary-light); color: var(--primary); }
+
+.alert { padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 10px; animation: fadeIn 0.3s ease; }
+.alert-error { background: var(--danger-light); color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
+.alert-success { background: var(--success-light); color: var(--success); border: 1px solid rgba(16,185,129,0.2); }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.spinner { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
