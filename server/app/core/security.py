@@ -32,7 +32,8 @@ def create_access_token(data: dict) -> str:
         "exp": now + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
         "iat": now,
         "type": "access",
-        "jti": secrets.token_hex(16)
+        "jti": secrets.token_hex(16),
+        "tv": data.get("token_version", 0)
     })
     return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
@@ -43,7 +44,8 @@ def create_refresh_token(data: dict) -> str:
         "exp": now + timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS),
         "iat": now,
         "type": "refresh",
-        "jti": secrets.token_hex(16)
+        "jti": secrets.token_hex(16),
+        "tv": data.get("token_version", 0)
     })
     return jwt.encode(payload, settings.REFRESH_SECRET_KEY, algorithm=settings.ALGORITHM)
 

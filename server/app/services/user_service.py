@@ -15,6 +15,7 @@ class UserService:
         now = _utc_now()
         data["created_at"] = now
         data["updated_at"] = now
+        data["token_version"] = 0
         data.pop("_id", None)
         return await db.users.insert_one(data)
 
@@ -42,6 +43,14 @@ class UserService:
         return await db.users.update_one(
             {"email": email.lower()},
             {"$set": {"password": hashed_password, "updated_at": _utc_now()}}
+        )
+
+    @staticmethod
+    async def increment_token_version(email: str):
+        db = ConnectDB.get_db()
+        return await db.users.update_one(
+            {"email": email.lower()},
+            {"$inc": {"token_version": 1}}
         )
 
     @staticmethod

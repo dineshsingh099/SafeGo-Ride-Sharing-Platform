@@ -1,4 +1,3 @@
-# app/schemas/user_schema.py
 from pydantic import BaseModel, Field, field_validator, model_validator, ConfigDict
 from datetime import datetime
 
@@ -34,15 +33,20 @@ class ForgotPasswordRequest(EmailSchema):
     pass
 
 
-class ResetPasswordRequest(EmailSchema):
-    otp: str          = Field(..., min_length=6, max_length=6)
-    new_password: str = Field(..., min_length=8, max_length=128)
-    confirm_password: str
+class VerifyResetOTPRequest(EmailSchema):
+    """Sirf OTP verify karne ke liye — password change nahi hoga yahan."""
+    otp: str = Field(..., min_length=6, max_length=6)
 
     @field_validator("otp")
     @classmethod
     def check_otp(cls, value: str) -> str:
         return validate_otp(value)
+
+
+class ResetPasswordRequest(EmailSchema):
+    """OTP pehle verify hona chahiye — yahan sirf naya password chahiye."""
+    new_password: str = Field(..., min_length=8, max_length=128)
+    confirm_password: str
 
     @model_validator(mode="after")
     def validate_all(self) -> "ResetPasswordRequest":

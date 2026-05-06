@@ -18,6 +18,7 @@ class UserModel:
         self.role        = role
         self.is_verified = False
         self.is_active   = True
+        self.token_version = 0
 
         now = datetime.now(timezone.utc)
         self.created_at = now
@@ -33,6 +34,7 @@ class UserModel:
             "role":        self.role,
             "is_verified": self.is_verified,
             "is_active":   self.is_active,
+            "token_version": self.token_version,
             "created_at":  self.created_at,
             "updated_at":  self.updated_at,
         }
